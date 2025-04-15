@@ -1,0 +1,48 @@
+@charset "UTF-8";
+.about-us-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 40px;
+    min-height: 400px;
+}
+
+.about-img {
+    width: 45%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.left-img {
+    margin-right: 20px;
+}
+
+.right-img {
+    margin-left: 20px;
+}
+
+.about-us-text {
+    text-align: center;
+    padding: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.about-us-text h2 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.about-us-text p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #555;
+    font-weight: 500;
+}
+.about-us-text {
+    text-align: center;
+    padding: 40px;
+    max-width: 1000px;
+    margin: -25px auto 0 auto; /* 👈 Adds 50px space above the text */
+}

@@ -1,0 +1,186 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-body {
+    flex: 1;
+    display: flex;
+    justify-content: center; /* Center content */
+    align-items: center; /* Center content vertically */
+    padding: 20px;
+    margin-top: 10px; /* Space below header */
+    margin-bottom: 0px; /* Space above footer */
+    background: url('../resources/images/system/port.png') no-repeat center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: left top;
+    position: relative;
+    height: 100vh; /* Full viewport height */
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 420px;
+    position: relative; /* Keep container relative */
+    z-index: 2;
+    overflow: hidden; /* Prevent content overflow */
+    margin-right: -490px; /* Shift slightly to the right */
+    margin-top: 80px;    /* Shift slightly down */
+}
+
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #f4f4f4; /* Customize the color */
+    z-index: 1;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #f4f4f4; /* Customize the color */
+    z-index: 1;
+}
+
+/* Ensure header and footer are inside the container and do not overlap with content */
+.container header, .container footer {
+    width: 100%;
+}
+
+.profile-pic {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.profile-pic .circle {
+    width: 60px;
+    height: 60px;
+    background-color: #e0f7fa;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.profile-pic .circle .icon {
+    font-size: 24px;
+    color: #4caf50;
+}
+
+.profile-pic .edit-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: #4caf50;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-pic .edit-icon .pencil {
+    color: #fff;
+    font-size: 12px;
+}
+
+.profile-pic .max-size {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+    text-align: right;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-size: 14px;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group .info {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+}
+
+.form-group .info {
+    background-color: #f0f0f0;
+}
+
+.form-group .note {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+}
+
+.form-group .note a {
+    color: #1e88e5;
+    text-decoration: none;
+}
+
+.form-group .note a:hover {
+    text-decoration: underline;
+}
+
+.school-id {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.school-id .id {
+    font-size: 14px;
+    color: #666;
+}
+
+.save-btn {
+    background-color: #ab47bc;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.save-btn:hover {
+    background-color: #9c27b0;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+    .main-body {
+        justify-content: center; /* Center the form on mobile */
+    }
+    .container {
+        margin-right: 0; /* Remove right margin on mobile */
+        width: 90%; /* Make the form responsive */
+    }
+}

@@ -1,0 +1,98 @@
+@charset "UTF-8";
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0; /* Remove extra padding */
+    background-image: url('/demo1/resources/images/system/login.png');
+    background-size: 100% auto; /* Ensures full width without cropping */
+    background-repeat: no-repeat;
+    background-position: bottom center; /* Moves image up */
+    height: auto;
+    min-height: 110vh; /* Adjust to reveal the top part */
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container {
+    text-align: center; /* Keeps content inside centered */
+    width: 300px; /* Adjust width if needed */
+    
+    position: absolute; /* Allows precise positioning */
+    left: 13%; /* Moves the container to the left edge */
+    top: 60%; /* Centers vertically */
+    transform: translateY(-50%); /* Adjusts vertical centering */
+}
+
+
+.login-logo {
+    width: 150px; /* Adjust the size of the logo */
+    height: auto;
+    margin-bottom: 20px; /* Space between the logo and the form */
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.row {
+    display: flex;
+    margin-bottom: 35px;
+}
+
+.col {
+    flex: 1;
+    margin-right: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    color: #ffffff;
+    font-size: 20px; /* Increase text size */
+    font-weight: bold; /* Make it bold for better visibility */
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+select {
+    appearance: none;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #449A44;
+}
+
+/* Logo container styling */
+.logo-container {
+    text-align: left; /* Align the logo to the left */
+    margin-left: -850px; /* Shift the container slightly from the left */
+    margin-top: -400px; /* Move the logo container upwards */
+    margin-bottom: 30px; /* Space below the logo */
+}
+
+
+/* Logo image styling */
+.logo {
+    width: 250px; /* Adjust the width of the logo */
+    height: auto; /* Maintain aspect ratio */
+}

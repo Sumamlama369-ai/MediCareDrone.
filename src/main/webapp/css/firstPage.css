@@ -1,0 +1,90 @@
+@charset "UTF-8";
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: url('/MediCareDrone/resources/images/system/firstPage.png');
+    background-size: cover;
+    background-position: top center; /* Aligns image to the top */
+    background-repeat: no-repeat;
+}
+
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    margin-top: 165px; /* Adjust the value as needed */
+}
+
+
+h1 {
+    color: white;
+    font-size: 48px;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    margin-top: 17px; /* Adjust the value as needed */
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 25px;
+    color: white;
+    background-color: transparent;
+    border: 2px solid white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 36px;
+    }
+
+    .btn {
+        padding: 8px 20px;
+        font-size: 14px;
+    }
+
+    .button-group {
+        gap: 15px;
+    }
+}
+
+@media (max-width: 400px) {
+    h1 {
+        font-size: 28px;
+    }
+
+    .btn {
+        padding: 6px 15px;
+        font-size: 12px;
+    }
+
+    .button-group {
+        gap: 10px;
+    }
+}

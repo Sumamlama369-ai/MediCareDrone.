@@ -1,0 +1,158 @@
+@charset "UTF-8";
+
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+html, body {
+    height: 100%;
+    font-family: Arial, sans-serif;
+    color: white;
+    background-color: #000; /* fallback background */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main content wrapper between header and footer */
+.main-body {
+    flex: 1;
+    position: relative;
+    width: 100%;
+    display: flex;
+}
+
+/* Container for background and content */
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Background Image */
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/demo1/resources/images/system/homeBackground.png') no-repeat center center/cover;
+    z-index: 0;
+    filter: brightness(1.1); /* Optional: increase brightness */
+}
+
+/* Overlay for readable content over image */
+.overlay {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    padding: 40px 60px;
+    background-color: rgba(255, 255, 255, 0.2); /* 👈 lighter white overlay */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 50px;
+    color: #000; /* Set content color to dark for contrast */
+}
+
+
+/* Title Styling */
+.title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    flex: 1;
+    min-width: 250px;
+    color: white;
+}
+
+/* Bullet Points Styling */
+.bullet-points {
+    list-style-type: none;
+    font-size: 1.2rem; /* Reduced font size */
+    line-height: 2.2; /* More breathing room between lines */
+    text-align: left; /* Align bullet points to the left */
+    flex: 1;
+    min-width: 300px; /* Ensure it doesn't collapse too much */
+    padding-left: 550px;
+    transform: translateY(-20px); /* Move bullet points upwards */
+    display: flex; /* Keep as flex container */
+    flex-direction: column; /* Remove column-reverse, use natural order */
+    color: white;
+}
+
+.bullet-points li {
+    margin-bottom: 15px; /* More space between bullet points */
+    position: relative;
+    padding-left: 30px; /* Space for the arrow on the left */
+    padding-right: 0; /* Remove right padding */
+    color: white;
+}
+
+.bullet-points li::before {
+    content: "→";
+    position: absolute;
+    left: 0; /* Position the arrow on the left */
+    color: white;
+    font-size: 1.2rem; /* Match the reduced text size */
+}
+
+/* Drone Image Styling (optional) */
+.drone-image {
+    display: block;
+    margin: 40px auto 0;
+    width: 40%;
+    max-width: 500px;
+    z-index: 2;
+}
+
+/* Footer Styling */
+.footer {
+    background-color: #222;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+    position: relative;
+    z-index: 3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .overlay {
+        flex-direction: column; /* Stack title and bullet points on small screens */
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .title {
+        font-size: 2.5rem; /* Smaller title on mobile */
+        text-align: center;
+    }
+
+    .bullet-points {
+        font-size: 0.9rem; /* Further reduced font size on mobile */
+        line-height: 2;
+        text-align: center; /* Center the bullet points */
+        padding-left: 0;
+        transform: none; /* Remove the upward shift on mobile */
+        display: block; /* Revert to block for mobile to avoid flex issues */
+    }
+
+    .bullet-points li {
+        padding-left: 0; /* Remove padding since we're centering */
+        padding-right: 0; /* Remove right padding on mobile */
+    }
+
+    .bullet-points li::before {
+        display: none; /* Remove the arrow on mobile for simplicity */
+    }
+}
