@@ -72,7 +72,7 @@ a {
 }
 
 .header-middle-content {
-    margin: 10px 0; /* Space between the logo and main-nav */
+    margin: 19px 7; /* Space between the logo and main-nav */
     text-align: center;
     font-size: 3em; /* Increased font size */
     font-weight: bold; /* Make the text bold */

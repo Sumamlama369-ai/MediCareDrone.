@@ -1,0 +1,124 @@
+@charset "UTF-8";
+
+body {
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 40px auto 20px; /* Changed from 0 auto 20px to add 40px top margin */
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-height: 400px; /* Add this line to set a minimum height */
+}
+.container h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.dashboard {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.card {
+    flex: 1;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.icon {
+  width: 110px;     /* Increased from 60px */
+  height: 110px;    /* Increased from 60px */
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon.green {
+    background-color: #28a745;
+}
+
+.icon.cyan {
+    background-color: #17a2b8;
+}
+
+.icon.red {
+    background-color: #dc3545;
+}
+
+.icon.orange {
+    background-color: #fd7e14;
+}
+
+.icon img {
+    width: 60px;
+    height: 60px;
+}
+
+.card h2 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.card p {
+    font-size: 16px;
+    color: #666;
+}
+/* Button Styles */
+.button-container {
+    max-width: 1200px;
+    margin: 0 auto 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 16px 32px; /* Increased from 12px 24px */
+    font-size: 18px; /* Increased from 16px */
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px; /* Increased from 6px */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 200px; /* Add this to set a minimum width */
+}
+
+.primary-btn {
+    background-color: #28a745;
+    color: white;
+    border: 2px solid #28a745;
+}
+
+.primary-btn:hover {
+    background-color: #218838;
+    border-color: #218838;
+}
+
+.secondary-btn {
+    background-color: #17a2b8;
+    color: white;
+    border: 2px solid #17a2b8;
+}
+
+.secondary-btn:hover {
+    background-color: #138496;
+    border-color: #138496;
+}

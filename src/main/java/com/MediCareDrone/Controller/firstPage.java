@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Servlet implementation class firstPage
  */
-@WebServlet(asyncSupported = true, urlPatterns = { "/firstPage"})
+@WebServlet(asyncSupported = true, urlPatterns = { "/firstPage", "/"})
 public class firstPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

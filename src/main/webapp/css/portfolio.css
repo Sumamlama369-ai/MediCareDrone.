@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f5f5f5;
+    background-color: #FDFDFD;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -25,15 +25,15 @@ body {
 }
 
 .container {
-    background-color: #fff;
+    background-color: #FDFDFD;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    width: 420px;
+    width: 500px;
     position: relative; /* Keep container relative */
     z-index: 2;
     overflow: hidden; /* Prevent content overflow */
-    margin-right: -490px; /* Shift slightly to the right */
+    margin-right: -600px; /* Shift slightly to the right */
     margin-top: 80px;    /* Shift slightly down */
 }
 

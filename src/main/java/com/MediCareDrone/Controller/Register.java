@@ -6,9 +6,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
-import com.MediCareDrone.model.StudentModel;
+import com.MediCareDrone.model.UserModel;
 import com.MediCareDrone.util.ValidationUtil;
+import com.MediCareDrone.Controller.Hashing.*;
+import com.MediCareDrone.config.DbConfig;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 @WebServlet(asyncSupported = true, urlPatterns = { "/register" })
 public class Register extends HttpServlet {
@@ -22,8 +27,6 @@ public class Register extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            System.out.println("Processing registration form submission...");
-
             // Validate the registration form
             String validationMessage = validateRegistrationForm(req);
             if (validationMessage != null) {
@@ -31,11 +34,15 @@ public class Register extends HttpServlet {
                 return;
             }
 
-            // Extract student model
-            StudentModel studentModel = extractStudentModel(req);
+            // Extract user model
+            UserModel userModel = extractUserModel(req);
 
-            // Simulate saving to DB
-            boolean isAdded = true;
+            // Hash the password before storing it in the database (use a utility function for this)
+            String hashedPassword = Hashing.hashPassword(userModel.getPassword());
+            userModel.setPassword(hashedPassword);
+
+            // Save to the database
+            boolean isAdded = saveUserToDB(userModel);
 
             if (isAdded) {
                 handleSuccess(req, resp, "Your account is successfully created!", "/WEB-INF/pages/login.jsp");
@@ -46,6 +53,18 @@ public class Register extends HttpServlet {
             e.printStackTrace();
             handleError(req, resp, "An unexpected error occurred. Please try again later!");
         }
+    }
+
+    private UserModel extractUserModel(HttpServletRequest req) {
+        String firstName = req.getParameter("firstName");
+        String lastName = req.getParameter("lastName");
+        String username = req.getParameter("username");
+        String gender = req.getParameter("gender");
+        String email = req.getParameter("email");
+        String phone = req.getParameter("phone");
+        String password = req.getParameter("password");
+
+        return new UserModel(firstName, lastName, username, gender, email, phone, password);
     }
 
     private String validateRegistrationForm(HttpServletRequest req) {
@@ -66,29 +85,32 @@ public class Register extends HttpServlet {
         if (ValidationUtil.isNullOrEmpty(phone)) return "Phone number is required.";
         if (ValidationUtil.isNullOrEmpty(password)) return "Password is required.";
         if (ValidationUtil.isNullOrEmpty(retypePassword)) return "Please retype the password.";
-
-        if (!ValidationUtil.isAlphabetic(firstName)) return "First name must contain only letters.";
-        if (!ValidationUtil.isAlphabetic(lastName)) return "Last name must contain only letters.";
-        if (!ValidationUtil.isAlphanumericStartingWithLetter(username)) return "Username must start with a letter and contain only letters and numbers.";
-        if (!ValidationUtil.isValidGender(gender)) return "Gender must be 'male' or 'female'.";
-        if (!ValidationUtil.isValidEmail(email)) return "Invalid email format.";
-        if (!ValidationUtil.isValidPhoneNumber(phone)) return "Phone number must be 10 digits and start with 98.";
-        if (!ValidationUtil.isValidPassword(password)) return "Password must be at least 8 characters long, with 1 uppercase letter, 1 number, and 1 special character.";
         if (!ValidationUtil.doPasswordsMatch(password, retypePassword)) return "Passwords do not match.";
 
         return null;
     }
 
-    private StudentModel extractStudentModel(HttpServletRequest req) {
-        String firstName = req.getParameter("firstName");
-        String lastName = req.getParameter("lastName");
-        String username = req.getParameter("username");
-        String gender = req.getParameter("gender");
-        String email = req.getParameter("email");
-        String phone = req.getParameter("phone");
-        String password = req.getParameter("password");
+    private boolean saveUserToDB(UserModel userModel) {
+        try (Connection conn = DbConfig.getDbConnection()) {
+            String query = "INSERT INTO User_Details (First_Name, Last_Name, Username, Gender, Email, Phone, Password) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        return new StudentModel(firstName, lastName, username, gender, email, phone, password);
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setString(1, userModel.getFirstName());
+                stmt.setString(2, userModel.getLastName());
+                stmt.setString(3, userModel.getEmail());
+                stmt.setString(4, userModel.getPhone());
+                stmt.setString(5, userModel.getUsername());
+                stmt.setString(6, userModel.getGender());
+                stmt.setString(7, userModel.getPassword());
+
+                int rowsAffected = stmt.executeUpdate();
+                return rowsAffected > 0; // If at least one row is affected, return true
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private void handleSuccess(HttpServletRequest req, HttpServletResponse resp, String message, String redirectPage)

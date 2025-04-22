@@ -63,6 +63,7 @@
             </div>
             
             <button type="submit" class="submit-btn">Submit</button>
+            <button type="submit" class="submit-btn" onclick="window.location.href='${pageContext.request.contextPath}/login'">Login</button>
         </form>
     </div>
 </body>

@@ -1,0 +1,119 @@
+@charset "UTF-8";
+
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Background Image */
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('../images/background.jpg') no-repeat center center/cover;
+    opacity: 0.2; /* Slight transparency to make overlay content readable */
+    z-index: 1;
+}
+
+/* Overlay Content */
+.overlay {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 40px;
+    gap: 50px;
+}
+
+.contact-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.logo {
+    width: 100px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 46px;
+    color: #333;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.drone-image {
+    width: 900px;
+    height: auto;
+}
+
+.contact-right {
+    text-align: left;
+}
+
+.subtitle {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    white-space: nowrap; /* Ensures "GET IN TOUCH" stays on one line */
+}
+
+.contact-details {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.contact-details li {
+    font-size: 25px;
+    color: #555;
+    margin-bottom: 5px; /* Reduced spacing to match the tighter layout in the image */
+    line-height: 1.5;
+}
+
+/* Style every odd li (labels) differently if needed */
+.contact-details li:nth-child(odd) {
+    color: #333; /* Slightly darker color for labels */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .overlay {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .contact-right {
+        text-align: center;
+    }
+
+    .drone-image {
+        width: 200px;
+    }
+
+    .title {
+        font-size: 28px;
+    }
+
+    .subtitle {
+        font-size: 20px;
+    }
+
+    .container {
+        min-height: 90vh; /* Slightly taller on mobile to accommodate stacked content */
+    }
+}

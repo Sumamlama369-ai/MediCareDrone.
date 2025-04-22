@@ -65,6 +65,7 @@ input, select {
     cursor: pointer;
     font-size: 16px;
     margin-top: 10px;
+    margin: 10px
 }
 
 .submit-btn:hover {
