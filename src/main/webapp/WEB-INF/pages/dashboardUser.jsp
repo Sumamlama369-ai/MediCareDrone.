@@ -23,33 +23,38 @@
         <h1>Dashboard Summary of MediCareDrone</h1>
         <div class="dashboard">
             <div class="card">
-                <div class="icon green">
-                    <img src="${pageContext.request.contextPath}/resources/images/system/eye.png" alt="Eye Icon">
-                </div>
-                <h2>8,457</h2>
-                <p>Daily Visits</p>
-            </div>
+			    <div class="icon green">
+			        <img src="${pageContext.request.contextPath}/resources/images/system/eye.png" alt="eye Icon">
+			    </div>
+			    <h2>₹${avgOrderValue}</h2>
+			    <p>Avg. Order Value</p>
+			</div>
+
             <div class="card">
-                <div class="icon cyan">
-                    <img src="${pageContext.request.contextPath}/resources/images/system/cart.png" alt="Cart Icon">
-                </div>
-                <h2>52,160</h2>
-                <p>Sales</p>
-            </div>
+			    <div class="icon cyan">
+			        <img src="${pageContext.request.contextPath}/resources/images/system/cart.png" alt="Cart Icon">
+			    </div>
+			    <h2>${totalOrders}</h2> <!-- 👈 Dynamic order count -->
+			    <p>Sales</p>
+			</div>
+
             <div class="card">
-                <div class="icon red">
-                    <img src="${pageContext.request.contextPath}/resources/images/system/drone.png" alt="Comment Icon">
-                </div>
-                <h2>15,823</h2>
-                <p>No. of drones</p>
-            </div>
+			    <div class="icon red">
+			        <img src="${pageContext.request.contextPath}/resources/images/system/drone.png" alt="Comment Icon">
+			    </div>
+			    <h2>${totalDrones}</h2> <!-- 👈 Dynamic value -->
+			    <p>No. of drones</p>
+			</div>
+
             <div class="card">
-                <div class="icon orange">
-                    <img src="${pageContext.request.contextPath}/resources/images/system/user.png" alt="Users Icon">
-                </div>
-                <h2>36,752</h2>
-                <p>No. of registered users</p>
-            </div>
+			    <div class="icon orange">
+			        <img src="${pageContext.request.contextPath}/resources/images/system/user.png" alt="Users Icon">
+			    </div>
+			    <h2>${totalUsers}</h2> <!-- 👈 dynamic value here -->
+			    <p>No. of registered users</p>
+			</div>
+
+
         </div>
     </div>
     

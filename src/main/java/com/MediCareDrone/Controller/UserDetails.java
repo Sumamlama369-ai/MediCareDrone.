@@ -1,6 +1,6 @@
 package com.MediCareDrone.Controller;
 
-import com.MediCareDrone.Controller.UserDAO;
+import com.MediCareDrone.DAO.UserDAO;
 import com.MediCareDrone.model.UserModel;
 import com.MediCareDrone.util.CookieUtil;
 

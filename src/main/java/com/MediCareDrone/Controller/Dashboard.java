@@ -1,5 +1,8 @@
 package com.MediCareDrone.Controller;
 
+import com.MediCareDrone.DAO.OrderDAO;
+import com.MediCareDrone.DAO.ProductDAO;
+import com.MediCareDrone.DAO.UserDAO;
 import com.MediCareDrone.util.CookieUtil;
 
 import jakarta.servlet.ServletException;
@@ -55,6 +58,32 @@ public class Dashboard extends HttpServlet {
 			return; // Stop further execution
 		}
 
+		
+		// ✅ Get total registered user count
+				UserDAO userDAO = new UserDAO();
+				int totalUsers = userDAO.getTotalUserCount();
+				request.setAttribute("totalUsers", totalUsers); // send to JSP
+				System.out.println("Total users from DAO: " + totalUsers);
+
+				
+				
+				
+				int totalDrones = new ProductDAO().getTotalDroneCount();
+				request.setAttribute("totalUsers", totalUsers);
+				request.setAttribute("totalDrones", totalDrones);
+
+				
+				int totalOrders = new OrderDAO().getTotalOrderCount();
+				request.setAttribute("totalOrders", totalOrders);
+
+				
+				double avgOrderValue = new OrderDAO().getAverageOrderValue();
+				request.setAttribute("avgOrderValue", avgOrderValue);
+
+				
+		
+		
+		
 		// ✅ STEP 6: User is authenticated, pass data to the dashboard JSP
 		request.setAttribute("username", username); // Optional: use it in JSP if needed
 		request.getRequestDispatcher("/WEB-INF/pages/dashboard.jsp").forward(request, response);

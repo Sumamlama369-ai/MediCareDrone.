@@ -1,4 +1,4 @@
-package com.MediCareDrone.Controller;
+package com.MediCareDrone.DAO;
 
 import com.MediCareDrone.config.DbConfig;
 import com.MediCareDrone.model.ProductModel;
