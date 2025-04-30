@@ -11,17 +11,23 @@ body {
 .main-body {
     flex: 1;
     display: flex;
-    justify-content: center; /* Center content */
-    align-items: center; /* Center content vertically */
+    justify-content: space-between; /* Keeps elements spaced apart */
+    align-items: center;
     padding: 20px;
-    margin-top: 10px; /* Space below header */
-    margin-bottom: 0px; /* Space above footer */
-    background: url('../resources/images/system/port.png') no-repeat center center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: left top;
+    margin-top: 10px;
+    margin-bottom: 0px;
     position: relative;
-    height: 100vh; /* Full viewport height */
+    height: 100vh;
+}
+
+/* Portfolio image styling */
+.portfolio-image {
+    width: 30%; /* Adjust as needed */
+    height: auto;
+    max-height: 80vh;
+    object-fit: contain;
+    margin-left: 80px; /* Add some spacing from the left edge */
+    margin-top: 60px;
 }
 
 .container {
@@ -29,12 +35,12 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    width: 500px;
-    position: relative; /* Keep container relative */
+    width: 50%; /* Adjusted width */
+    position: relative;
     z-index: 2;
-    overflow: hidden; /* Prevent content overflow */
-    margin-right: -600px; /* Shift slightly to the right */
-    margin-top: 80px;    /* Shift slightly down */
+    overflow: hidden;
+    margin-right: 120px; /* Changed from -600px to add reasonable margin */
+    margin-top: 80px; /* Removed the top margin to center vertically */
 }
 
 header {
@@ -42,7 +48,7 @@ header {
     top: 0;
     left: 0;
     right: 0;
-    background-color: #f4f4f4; /* Customize the color */
+    background-color: #f4f4f4;
     z-index: 1;
 }
 
@@ -51,7 +57,7 @@ footer {
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: #f4f4f4; /* Customize the color */
+    background-color: #f4f4f4;
     z-index: 1;
 }
 
@@ -62,13 +68,15 @@ footer {
 
 .profile-pic {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 20px;
+    width: 100%;
 }
 
 .profile-pic .circle {
-    width: 60px;
-    height: 60px;
+    width: 80px; /* Increased size */
+    height: 80px; /* Increased size */
     background-color: #e0f7fa;
     border-radius: 50%;
     display: flex;
@@ -78,7 +86,7 @@ footer {
 }
 
 .profile-pic .circle .icon {
-    font-size: 24px;
+    font-size: 32px; /* Increased size */
     color: #4caf50;
 }
 
@@ -88,8 +96,8 @@ footer {
     right: 0;
     background-color: #4caf50;
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
+    width: 24px; /* Increased size */
+    height: 24px; /* Increased size */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -97,7 +105,7 @@ footer {
 
 .profile-pic .edit-icon .pencil {
     color: #fff;
-    font-size: 12px;
+    font-size: 14px; /* Increased size */
 }
 
 .profile-pic .max-size {
@@ -177,10 +185,63 @@ footer {
 /* Responsive design for smaller screens */
 @media (max-width: 768px) {
     .main-body {
-        justify-content: center; /* Center the form on mobile */
+        flex-direction: column; /* Stack elements on mobile */
+        justify-content: center;
+        height: auto; /* Allow content to determine height */
     }
+    
+    .portfolio-image {
+        width: 80%;
+        margin-left: 0;
+        margin-bottom: 20px;
+    }
+    
     .container {
-        margin-right: 0; /* Remove right margin on mobile */
-        width: 90%; /* Make the form responsive */
+        margin-right: 0;
+        width: 90%;
+        margin-top: 0;
     }
+}
+.form-group label {
+    font-size: 18px;
+    color: #333;
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+
+
+.save-btn2 {
+    display: flex; /* Ensure the container doesn't interfere with button styling */
+    justify-content: center; /* Center the button if needed */
+}
+
+.save-btn2 button {
+    background-color: #8B5CF6; /* Purple background */
+    color: white; /* White text color */
+    border: none; /* Remove border */
+    padding: 10px 20px; /* Padding around the text */
+    text-align: center; /* Center the text */
+    text-decoration: none; /* Remove underline */
+    font-size: 16px; /* Font size */
+    margin: 4px 2px; /* Space around the button */
+    cursor: pointer; /* Cursor on hover */
+    border-radius: 50px; /* Fully rounded corners */
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+    width: auto; /* Let the button size based on content */
+    min-width: 100px; /* Set a minimum width to reduce the length */
+    box-sizing: border-box; /* Ensure padding doesn't increase the size */
+}
+
+.save-btn2 button:hover {
+    background-color: #7C3AED; /* Slightly darker purple on hover */
+}
+
+.save-btn2 button:active {
+    background-color: #6D28D9; /* Even darker purple on active */
+}
+
+.save-btn2 button:focus {
+    outline: none; /* Remove outline on focus */
 }

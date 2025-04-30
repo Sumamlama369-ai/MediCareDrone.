@@ -5,6 +5,11 @@ import com.MediCareDrone.DAO.UserDAO; //
 import com.MediCareDrone.DAO.OrderDAO; // 
 import com.MediCareDrone.DAO.ProductDAO;
 import com.MediCareDrone.config.*;
+import com.MediCareDrone.model.UserModel;
+import com.MediCareDrone.config.DbConfig;
+
+
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -18,6 +23,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * 23048591SumanLama
@@ -74,10 +80,11 @@ public class DashboardUser extends HttpServlet {
 		double avgOrderValue = new OrderDAO().getAverageOrderValue();
 		request.setAttribute("avgOrderValue", avgOrderValue);
 
-		
-		
-		
-		
+	
+
+		List<UserModel> users = userDAO.getAllUsers();
+        request.setAttribute("users", users);
+        request.setAttribute("username", username); // pass to JSP
 		
 		
 		request.setAttribute("username", username);

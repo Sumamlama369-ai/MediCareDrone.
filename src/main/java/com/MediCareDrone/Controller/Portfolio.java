@@ -16,15 +16,12 @@ import java.io.IOException;
 
 /**
  * Servlet implementation for the Portfolio page.
- * Handles requests for displaying the user's portfolio.
+ * Handles requests for displaying the user's portfolio and updating basic info.
  */
 @WebServlet(asyncSupported = true, urlPatterns = { "/Portfolio" })
 public class Portfolio extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Handles GET requests to /Portfolio
-	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -51,12 +48,10 @@ public class Portfolio extends HttpServlet {
 		}
 
 		try {
-			// ✅ Get user details using DAO
 			UserDAO userDAO = new UserDAO();
-			UserModel user = userDAO.getUserByUsername(username); // Make sure this method exists
+			UserModel user = userDAO.getUserByUsername(username);
 
 			if (user != null) {
-				// Pass the entire user object to JSP
 				request.setAttribute("user", user);
 			} else {
 				System.out.println("⚠️ No user found with username: " + username);
@@ -69,8 +64,37 @@ public class Portfolio extends HttpServlet {
 		request.getRequestDispatcher("/WEB-INF/pages/portfolio.jsp").forward(request, response);
 	}
 
+	/**
+	 * Handles POST requests to /Portfolio for updating first and last name.
+	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String username = request.getParameter("username");
+		String updatedFirstName = request.getParameter("firstName");
+		String updatedLastName = request.getParameter("lastName");
+
+		UserDAO userDAO = new UserDAO();
+		UserModel user = userDAO.getUserByUsername(username);
+
+		if (user != null) {
+			user.setFirstName(updatedFirstName);
+			user.setLastName(updatedLastName);
+
+			boolean updated = userDAO.updateUser(user);
+
+			if (updated) {
+				System.out.println("✅ User profile updated successfully for: " + username);
+				request.setAttribute("successMessage", "Profile updated successfully.");
+			} else {
+				System.out.println("❌ Failed to update user profile for: " + username);
+				request.setAttribute("errorMessage", "Failed to update profile.");
+			}
+		} else {
+			System.out.println("⚠️ No user found to update with username: " + username);
+			request.setAttribute("errorMessage", "User not found.");
+		}
+
+		// Reuse the doGet method to reload updated profile info
 		doGet(request, response);
 	}
 }

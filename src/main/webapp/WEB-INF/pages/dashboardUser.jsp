@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.MediCareDrone.model.UserModel" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,6 +69,33 @@
 
 	-->
 
-    <jsp:include page="footer.jsp" />
+
+		
+		
+	<h3>User Table</h3>
+	<table>
+	    <tr>
+	        <th>First</th><th>Last</th><th>Email</th><th>Phone</th><th>Username</th><th>Gender</th>
+	    </tr>
+	    <%
+	        List<UserModel> users = (List<UserModel>) request.getAttribute("users");
+	        for (UserModel u : users) {
+	    %>
+	    <tr>
+	        <td><%= u.getFirstName() %></td>
+	        <td><%= u.getLastName() %></td>
+	        <td><%= u.getEmail() %></td>
+	        <td><%= u.getPhone() %></td>
+	        <td><%= u.getUsername() %></td>
+	        <td><%= u.getGender() %></td>
+
+	    </tr>
+	    <% } %>
+	</table>
+			
+		
+	
+
+    <!--<jsp:include page="footer.jsp" />   -->
 </body>
 </html>

@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Contact Us</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/header.css" />
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/contactHeader.css" />
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/contactUs.css" />
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/footer.css" />
 </head>

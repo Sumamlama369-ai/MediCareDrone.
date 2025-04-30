@@ -6,63 +6,70 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>My Portfolio</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/header.css" />
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/portfolio.css" />
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/footer.css" />
 </head>
 <body>
 
-    <jsp:include page="header.jsp" />
+<jsp:include page="header.jsp" />
+
+<div class="main-body">
+    <img src="${pageContext.request.contextPath}/resources/images/system/vector.png" class="portfolio-image" alt="Portfolio Image">
     
-    <div class="main-body">
-        <div class="container">
-            <div class="profile-pic">
-                <div class="circle">
-                    <span class="icon">👤</span>
-                    <div class="edit-icon">
-                        <span class="pencil">✏️</span>
-                    </div>
+    <div class="container">
+        <div class="profile-pic">
+            <div class="circle">
+                <span class="icon">👤</span>
+                <div class="edit-icon">
+                    <span class="pencil">✏️</span>
                 </div>
             </div>
-            <div class="max-size">MAX IMAGE SIZE = 1MB</div>
+        </div>
+
+        <form action="${pageContext.request.contextPath}/Portfolio" method="post">
+            <!-- Hidden Username (to identify the record to update) -->
+            <input type="hidden" name="username" value="${user.username}"/>
 
             <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" value="${user.firstName}" readonly>
+                <label>First Name</label>
+                <input type="text" name="firstName" value="${user.firstName}" required>
             </div>
 
             <div class="form-group">
                 <label>Last Name</label>
-                <input type="text" value="${user.lastName}">
+                <input type="text" name="lastName" value="${user.lastName}" required>
             </div>
 
             <div class="form-group">
                 <label>Email Address</label>
                 <div class="info">${user.email}</div>
-                <div class="note">
-                    This is your primary email address and will be used to send notification emails.
-                    <a href="#">Change Email Address</a>
-                </div>
             </div>
 
             <div class="form-group">
                 <label>Phone Number</label>
-                <input type="text" value="${user.phone}">
+                <input type="text" value="${user.phone}" readonly>
             </div>
 
             <div class="form-group">
                 <label>Username</label>
                 <div class="school-id">
                     <div class="info">${user.username}</div>
-                    <!-- <span class="id">27/28</span> -->
                 </div>
             </div>
 
-            <button class="save-btn">Save Changes</button>
-        </div>
+            <div class="form-group">
+                <label>Gender</label>
+                <input type="text" value="${user.gender}" readonly>
+            </div>
+
+            <button class="save-btn">Update</button>
+        </form>
     </div>
-    
-    <jsp:include page="footer.jsp" />
+</div>
+
+<jsp:include page="footer.jsp" />
+
 </body>
 </html>
