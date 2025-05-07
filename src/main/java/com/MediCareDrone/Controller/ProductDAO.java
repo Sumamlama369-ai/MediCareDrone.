@@ -122,6 +122,36 @@ public class ProductDAO {
         }
         return count;
     }
+    
+ // 🔍 Search drones by name (partial match)
+    public List<ProductModel> searchProductsByName(String searchQuery) {
+        List<ProductModel> products = new ArrayList<>();
+        String sql = "SELECT * FROM Product_Details WHERE Drone_Name LIKE ?";
+
+        try (Connection conn = DbConfig.getDbConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, "%" + searchQuery + "%"); // Partial match
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    ProductModel product = new ProductModel(
+                        rs.getInt("Drone_ID"),
+                        rs.getString("Drone_Name"),
+                        rs.getString("Payload_Capacity"),
+                        rs.getInt("Max_Range_KM"),
+                        rs.getBigDecimal("Price"),
+                        rs.getString("Warranty_Period")
+                    );
+                    products.add(product);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return products;
+    }
 
 
 }

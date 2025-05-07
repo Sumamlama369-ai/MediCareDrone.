@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+			
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,9 +24,6 @@
     </c:if>
 
     <jsp:include page="header.jsp" />
-    
-    
-    
     
 	<div class="main-container">
         <!-- Sidebar for Filters -->
@@ -37,79 +42,51 @@
         <!-- Product List -->
         <main class="product-list">
             <h1>Products - Drones</h1>
-            <div class="products">
-                <!-- Drone M690 Pro -->
-                <div class="product-card">
-                    <img src="${pageContext.request.contextPath}/resources/images/system/drone1.png" alt="Drone M690 Pro">
-                    <h3>Drone M690 Pro</h3>
-                    <p>The M690 Pro quadcopter is a long endurance and multi-functional flight platform.</p>
-                    <p class="stock">In stock</p>
-                    <p class="price">€3,145 incl. VAT</p>
-                    <p class="price-excl">€2,599</p>
-                    <button class="add-to-cart">Buy</button>
-                </div>
+            <!-- Search Bar -->
+            <form action="${pageContext.request.contextPath}/Explore" method="get" class="search-container">
+			  <input
+			    type="text"
+			    name="query"
+			    id="search-input"
+			    placeholder="Search drones..."
+			    value="${param.query}"
+			  />
+			  <button type="submit" id="search-button">Search</button>
+			</form>
+			
 
-                <!-- Drone MX860 -->
-                <div class="product-card">
-                    <img src="${pageContext.request.contextPath}/resources/images/system/drone2.png" alt="Drone MX860">
-                    <h3>Drone MX860</h3>
-                    <p>Coaxial multi-rotor with remarkable load capacity and flight time.</p>
-                    <p class="stock">In stock</p>
-                    <p class="price">€5,202 incl. VAT</p>
-                    <p class="price-excl">€4,299</p>
-                    <button class="add-to-cart">Buy</button>
-                </div>
+          
+			
+			<div class="products">
+			  <c:choose>
+			    <c:when test="${not empty products}">
+			      <c:forEach var="product" items="${products}">
+			        <div class="product-card">
+			          <!-- Use the drone ID to pick the image file -->
+			          <c:set var="imgName" value="drone${product.droneId}.png" />
+			          <img
+			            src="${pageContext.request.contextPath}/resources/images/system/${imgName}"
+			            alt="${product.droneName}"
+			          />
+			          <h3>${product.droneName}</h3>
+			          <p>${product.payloadCapacity}</p>
+			          <p class="stock">In stock</p>
+			          <p class="price">€${product.price} incl. VAT</p>
+			          <p class="price-excl">€${product.price}</p>
+			          <button class="add-to-cart">Buy</button>
+			        </div>
+			      </c:forEach>
+			    </c:when>
+			    <c:otherwise>
+			      <p>No drones found matching “<strong>${param.query}</strong>”.</p>
+			    </c:otherwise>
+			  </c:choose>
+			</div>
 
-                <!-- VTOL VA25 -->
-                <div class="product-card">
-                    <img src="${pageContext.request.contextPath}/resources/images/system/drone3.png" alt="VTOL VA25">
-                    <h3>VTOL VA25</h3>
-                    <p>Fixed Wing VTOL Drone with reliable power system and long flight time.</p>
-                    <p class="stock">In stock</p>
-                    <p class="price">€9,558 incl. VAT</p>
-                    <p class="price-excl">€7,899</p>
-                    <button class="add-to-cart">Buy</button>
-                </div>
 
-                <!-- Drone M1200 -->
-                <div class="product-card">
-                    <img src="${pageContext.request.contextPath}/resources/images/system/drone4.png" alt="Drone M1200">
-                    <h3>Drone M1200</h3>
-                    <p>The preferred platform for 2-5 kg payload with long endurance.</p>
-                    <p class="stock">In stock</p>
-                    <p class="price">€4,355 incl. VAT</p>
-                    <p class="price-excl">€3,599</p>
-                    <button class="add-to-cart">Buy</button>
-                </div>
-
-                <!-- Drone M1500 -->
-                <div class="product-card">
-                    <img src="${pageContext.request.contextPath}/resources/images/system/drone5.png" alt="Drone M1500">
-                    <h3>Drone M1500</h3>
-                    <p>The preferred platform for 2-5 kg payload with long endurance.</p>
-                    <p class="stock">In stock</p>
-                    <p class="price">€6,533 incl. VAT</p>
-                    <p class="price-excl">€5,399</p>
-                    <button class="add-to-cart">Buy</button>
-                </div>
-
-                <!-- Drone M690B -->
-                <div class="product-card">
-                    <img src="${pageContext.request.contextPath}/resources/images/system/drone6.png" alt="Drone M690B">
-                    <h3>Drone M690B</h3>
-                    <p>The M690B quadcopter is lightweight, portable, and offers long endurance.</p>
-                    <p class="stock">In stock</p>
-                    <p class="price">€2,419 incl. VAT</p>
-                    <p class="price-excl">€1,999</p>
-                    <button class="add-to-cart">Buy</button>
-                </div>
-            </div>
         </main>
     </div>
-    
-
-
-
+  
     <jsp:include page="footer.jsp" />
 </body>
 </html>

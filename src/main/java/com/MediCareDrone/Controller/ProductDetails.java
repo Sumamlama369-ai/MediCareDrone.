@@ -46,6 +46,10 @@ public class ProductDetails extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
+        
+        
+        
+        
 
         // ✅ Authenticated – fetch and display product list
         List<ProductModel> products = productDAO.getAllProducts();

@@ -1,5 +1,7 @@
 package com.MediCareDrone.Controller;
 
+import com.MediCareDrone.DAO.ProductDAO;
+import com.MediCareDrone.model.ProductModel;
 import com.MediCareDrone.util.CookieUtil;
 
 import jakarta.servlet.ServletException;
@@ -11,61 +13,71 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * 23048591SumanLama
  * Explore servlet - handles the explore page
- * Now enhanced to include session and cookie-based authentication
+ * Now enhanced to include session, cookie authentication, and drone search
  */
 @WebServlet("/Explore")
 public class Explore extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
+    private ProductDAO productDAO;
 
-	/**
-	 * Handles GET request to /Explore
-	 */
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    public void init() {
+        productDAO = new ProductDAO(); // Initialize the DAO
+    }
 
-		// 🔐 STEP 1: Try to get existing session (false = don't create a new session)
-		HttpSession session = request.getSession(false);
-		String username = null; // Placeholder for authenticated username
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		// ✅ STEP 2: Check if session exists and contains "username"
-		if (session != null && session.getAttribute("username") != null) {
-			username = (String) session.getAttribute("username");
-			System.out.println("✅ User authenticated via session: " + username);
-		} else {
-			// 🔁 STEP 3: If no session, try checking cookie
-			Cookie usernameCookie = CookieUtil.getCookie(request, "username");
-			if (usernameCookie != null) {
-				username = usernameCookie.getValue();
+        // 🔐 Session or Cookie-based Authentication
+        HttpSession session = request.getSession(false);
+        String username = null;
 
-				// ♻️ Recreate session from cookie if valid username is found
-				session = request.getSession(); // create a new session
-				session.setAttribute("username", username);
-				System.out.println("🔁 Session restored from cookie: " + username);
-			}
-		}
+        if (session != null && session.getAttribute("username") != null) {
+            username = (String) session.getAttribute("username");
+            System.out.println("✅ User authenticated via session: " + username);
+        } else {
+            Cookie usernameCookie = CookieUtil.getCookie(request, "username");
+            if (usernameCookie != null) {
+                username = usernameCookie.getValue();
+                session = request.getSession();
+                session.setAttribute("username", username);
+                System.out.println("🔁 Session restored from cookie: " + username);
+            }
+        }
 
-		// ❌ STEP 4: If neither session nor cookie provided a username, block access
-		if (username == null) {
-			System.out.println("⛔ Unauthorized access to /Explore. Redirecting to login.");
-			response.sendRedirect(request.getContextPath() + "/login"); // Send user back to login
-			return;
-		}
+        if (username == null) {
+            System.out.println("⛔ Unauthorized access to /Explore. Redirecting to login.");
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
 
-		// ✅ STEP 5: Authenticated user, forward to the Explore JSP page
-		request.setAttribute("username", username); // Pass username to the JSP if needed
-		request.getRequestDispatcher("/WEB-INF/pages/explore.jsp").forward(request, response);
-	}
+        // ✅ Handle Search Query from Search Bar
+        String searchQuery = request.getParameter("query");
+        List<ProductModel> products;
 
-	/**
-	 * Handles POST request to /Explore (same as GET)
-	 */
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 🔁 Reuse doGet logic for POST requests
-		doGet(request, response);
-	}
+        if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+            products = productDAO.searchProductsByName(searchQuery.trim());
+            System.out.println("🔍 Search query: " + searchQuery);
+        } else {
+            products = productDAO.getAllProducts();
+            System.out.println("📦 Showing all products");
+        }
+
+        // ✅ Pass data to JSP
+        request.setAttribute("username", username);
+        request.setAttribute("products", products);
+        request.setAttribute("searchQuery", searchQuery); // Optional: to retain the value in the input box
+
+        request.getRequestDispatcher("/WEB-INF/pages/explore.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response); // Allow POST to behave the same way as GET
+    }
 }

@@ -45,6 +45,42 @@
     margin-top: 5px;
 }
 
+/* Search Bar Styles */
+.search-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#search-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+#search-input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+#search-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#search-button:hover {
+    background-color: #0056b3;
+}
+
 /* Product List Styles */
 .product-list {
     width: 75%;
@@ -144,5 +180,13 @@
 
     .products {
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    .search-container {
+        flex-direction: column;
+    }
+
+    #search-button {
+        width: 100%;
     }
 }
