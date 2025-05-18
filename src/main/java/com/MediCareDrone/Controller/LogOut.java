@@ -46,6 +46,7 @@ public class LogOut extends HttpServlet {
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.invalidate(); // Destroys the session and clears all user data
+            System.out.println("Successfully invalidating the active session and removing any cookies stored during login");
         }
 
         // Remove any cookies related to login or user data
@@ -54,5 +55,6 @@ public class LogOut extends HttpServlet {
 
         // Redirect the user to the main landing page after logout
         response.sendRedirect(request.getContextPath() + "/firstPage.jsp");
+        System.out.println("Successfully invalidating the active session and removing any cookies stored during login");
     }
 }

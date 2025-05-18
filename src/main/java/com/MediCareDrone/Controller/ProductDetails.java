@@ -24,25 +24,25 @@ public class ProductDetails extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // ✅ Session and Cookie Validation for Authentication
+        // Session and Cookie Validation for Authentication
         HttpSession session = request.getSession(false);
         String username = null;
 
         if (session != null && session.getAttribute("username") != null) {
             username = (String) session.getAttribute("username");
-            System.out.println("✅ Session active for: " + username);
+            System.out.println(" Session active for: " + username);
         } else {
             Cookie cookie = CookieUtil.getCookie(request, "username");
             if (cookie != null) {
                 username = cookie.getValue();
                 session = request.getSession();
                 session.setAttribute("username", username);
-                System.out.println("🔁 Session restored from cookie: " + username);
+                System.out.println(" Session restored from cookie: " + username);
             }
         }
 
         if (username == null) {
-            System.out.println("⚠️ No session or cookie found. Redirecting to login.");
+            System.out.println(" No session or cookie found. Redirecting to login.");
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
@@ -51,7 +51,7 @@ public class ProductDetails extends HttpServlet {
         
         
 
-        // ✅ Authenticated – fetch and display product list
+        // Authenticated – fetch and display product list
         List<ProductModel> products = productDAO.getAllProducts();
         request.setAttribute("products", products);
         request.setAttribute("username", username); // Pass the username to the JSP
@@ -62,25 +62,25 @@ public class ProductDetails extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // ✅ Session and Cookie Validation for Authentication
+        // Session and Cookie Validation for Authentication
         HttpSession session = request.getSession(false);
         String username = null;
 
         if (session != null && session.getAttribute("username") != null) {
             username = (String) session.getAttribute("username");
-            System.out.println("✅ Session active for: " + username);
+            System.out.println(" Session active for: " + username);
         } else {
             Cookie cookie = CookieUtil.getCookie(request, "username");
             if (cookie != null) {
                 username = cookie.getValue();
                 session = request.getSession();
                 session.setAttribute("username", username);
-                System.out.println("🔁 Session restored from cookie: " + username);
+                System.out.println(" Session restored from cookie: " + username);
             }
         }
 
         if (username == null) {
-            System.out.println("⚠️ No session or cookie found. Redirecting to login.");
+            System.out.println(" No session or cookie found. Redirecting to login.");
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }

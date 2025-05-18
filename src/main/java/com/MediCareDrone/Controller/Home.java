@@ -52,13 +52,13 @@ public class Home extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // ✅ STEP 1: Check if session exists and contains "username"
+        // STEP 1: Check if session exists and contains "username"
         HttpSession session = request.getSession(false); // false = don't create if not exist
         String username = null;
 
         if (session != null && session.getAttribute("username") != null) {
             username = (String) session.getAttribute("username");
-            System.out.println("✅ User authenticated via session: " + username);
+            System.out.println("User authenticated via session: " + username);
         } else {
             // 🟨 Optional fallback: Try checking cookie for username
             Cookie usernameCookie = CookieUtil.getCookie(request, "username");
@@ -68,13 +68,13 @@ public class Home extends HttpServlet {
                 // Restore session if found in cookie (optional)
                 session = request.getSession();
                 session.setAttribute("username", username);
-                System.out.println("🔁 Session recreated from cookie: " + username);
+                System.out.println("Session recreated from cookie: " + username);
             }
         }
 
-        // ❌ If user is not authenticated, redirect to login page
+        // If user is not authenticated, redirect to login page
         if (username == null) {
-            System.out.println("⚠️ No active session or cookie found. Redirecting to login.");
+            System.out.println("No active session or cookie found. Redirecting to login.");
             response.sendRedirect(request.getContextPath() + "/login");
             return; // Stop further processing
         }

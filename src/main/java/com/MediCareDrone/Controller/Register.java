@@ -37,7 +37,7 @@ public class Register extends HttpServlet {
             // Extract user model
             UserModel userModel = extractUserModel(req);
 
-            // Hash the password before storing it in the database (use a utility function for this)
+            // Hash the password before storing it in the database
             String hashedPassword = Hashing.hashPassword(userModel.getPassword());
             userModel.setPassword(hashedPassword);
 
@@ -78,11 +78,15 @@ public class Register extends HttpServlet {
         String retypePassword = req.getParameter("retypePassword");
 
         if (ValidationUtil.isNullOrEmpty(firstName)) return "First name is required.";
+        if (!ValidationUtil.isAlphabetic(firstName)) return "First name must contain only letters.";
         if (ValidationUtil.isNullOrEmpty(lastName)) return "Last name is required.";
+        if (!ValidationUtil.isAlphabetic(lastName)) return "Last name must contain only letters.";
         if (ValidationUtil.isNullOrEmpty(username)) return "Username is required.";
         if (ValidationUtil.isNullOrEmpty(gender)) return "Gender is required.";
         if (ValidationUtil.isNullOrEmpty(email)) return "Email is required.";
+        if (!ValidationUtil.isValidEmail(email)) return "Please enter a valid email address.";
         if (ValidationUtil.isNullOrEmpty(phone)) return "Phone number is required.";
+        if (!ValidationUtil.isValidPhoneNumber(phone)) return "Phone number must be 10 digits starting with 98.";
         if (ValidationUtil.isNullOrEmpty(password)) return "Password is required.";
         if (ValidationUtil.isNullOrEmpty(retypePassword)) return "Please retype the password.";
         if (!ValidationUtil.doPasswordsMatch(password, retypePassword)) return "Passwords do not match.";
@@ -98,14 +102,14 @@ public class Register extends HttpServlet {
             try (PreparedStatement stmt = conn.prepareStatement(query)) {
                 stmt.setString(1, userModel.getFirstName());
                 stmt.setString(2, userModel.getLastName());
-                stmt.setString(3, userModel.getEmail());
-                stmt.setString(4, userModel.getPhone());
-                stmt.setString(5, userModel.getUsername());
-                stmt.setString(6, userModel.getGender());
+                stmt.setString(3, userModel.getUsername());
+                stmt.setString(4, userModel.getGender());
+                stmt.setString(5, userModel.getEmail());
+                stmt.setString(6, userModel.getPhone());
                 stmt.setString(7, userModel.getPassword());
 
                 int rowsAffected = stmt.executeUpdate();
-                return rowsAffected > 0; // If at least one row is affected, return true
+                return rowsAffected > 0;
             }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();

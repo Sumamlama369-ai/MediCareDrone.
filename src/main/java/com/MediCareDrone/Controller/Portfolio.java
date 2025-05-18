@@ -30,19 +30,19 @@ public class Portfolio extends HttpServlet {
 
 		if (session != null && session.getAttribute("username") != null) {
 			username = (String) session.getAttribute("username");
-			System.out.println("✅ User authenticated via session: " + username);
+			System.out.println("User authenticated via session: " + username);
 		} else {
 			Cookie usernameCookie = CookieUtil.getCookie(request, "username");
 			if (usernameCookie != null) {
 				username = usernameCookie.getValue();
 				session = request.getSession();
 				session.setAttribute("username", username);
-				System.out.println("🔁 Session restored from cookie: " + username);
+				System.out.println("Session restored from cookie: " + username);
 			}
 		}
 
 		if (username == null) {
-			System.out.println("⛔ Unauthorized access to /Portfolio. Redirecting to login.");
+			System.out.println("Unauthorized access to /Portfolio. Redirecting to login.");
 			response.sendRedirect(request.getContextPath() + "/login");
 			return;
 		}
@@ -83,14 +83,14 @@ public class Portfolio extends HttpServlet {
 			boolean updated = userDAO.updateUser(user);
 
 			if (updated) {
-				System.out.println("✅ User profile updated successfully for: " + username);
+				System.out.println("User profile updated successfully for: " + username);
 				request.setAttribute("successMessage", "Profile updated successfully.");
 			} else {
-				System.out.println("❌ Failed to update user profile for: " + username);
+				System.out.println("Failed to update user profile for: " + username);
 				request.setAttribute("errorMessage", "Failed to update profile.");
 			}
 		} else {
-			System.out.println("⚠️ No user found to update with username: " + username);
+			System.out.println("No user found to update with username: " + username);
 			request.setAttribute("errorMessage", "User not found.");
 		}
 

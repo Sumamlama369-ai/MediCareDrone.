@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ProductDAO {
 
-    // ✅ Get all products from the database
+    // Get all products from the database
     public List<ProductModel> getAllProducts() {
         List<ProductModel> products = new ArrayList<>();
         String sql = "SELECT * FROM Product_Details";

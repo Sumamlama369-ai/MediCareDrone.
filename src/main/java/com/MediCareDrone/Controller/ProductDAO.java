@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ProductDAO {
 
-    // ✅ Get all products from the database
+    //  Get all products from the database
     public List<ProductModel> getAllProducts() {
         List<ProductModel> products = new ArrayList<>();
         String sql = "SELECT * FROM Product_Details";
@@ -36,7 +36,7 @@ public class ProductDAO {
         return products;
     }
 
-    // ✅ Add a new product
+    //  Add a new product
     public boolean addProduct(ProductModel product) {
         String sql = "INSERT INTO Product_Details (Drone_Name, Payload_Capacity, Max_Range_KM, Price, Warranty_Period) VALUES (?, ?, ?, ?, ?)";
 
@@ -57,7 +57,7 @@ public class ProductDAO {
         return false;
     }
 
-    // ✅ Delete a product by ID
+    //  Delete a product by ID
     public boolean deleteProduct(int droneId) {
         String sql = "DELETE FROM Product_Details WHERE Drone_ID=?";
 
@@ -73,7 +73,7 @@ public class ProductDAO {
         return false;
     }
 
-    // ✅ Update an existing product
+    //  Update an existing product
     public boolean updateProduct(ProductModel product) {
         String sql = "UPDATE Product_Details SET Drone_Name=?, Payload_Capacity=?, Max_Range_KM=?, Price=?, Warranty_Period=? WHERE Drone_ID=?";
 
@@ -123,7 +123,7 @@ public class ProductDAO {
         return count;
     }
     
- // 🔍 Search drones by name (partial match)
+ //  Search drones by name (partial match)
     public List<ProductModel> searchProductsByName(String searchQuery) {
         List<ProductModel> products = new ArrayList<>();
         String sql = "SELECT * FROM Product_Details WHERE Drone_Name LIKE ?";

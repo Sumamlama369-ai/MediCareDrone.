@@ -33,42 +33,42 @@ public class Explore extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // 🔐 Session or Cookie-based Authentication
+        //  Session or Cookie-based Authentication
         HttpSession session = request.getSession(false);
         String username = null;
 
         if (session != null && session.getAttribute("username") != null) {
             username = (String) session.getAttribute("username");
-            System.out.println("✅ User authenticated via session: " + username);
+            System.out.println("User authenticated via session: " + username);
         } else {
             Cookie usernameCookie = CookieUtil.getCookie(request, "username");
             if (usernameCookie != null) {
                 username = usernameCookie.getValue();
                 session = request.getSession();
                 session.setAttribute("username", username);
-                System.out.println("🔁 Session restored from cookie: " + username);
+                System.out.println("Session restored from cookie: " + username);
             }
         }
 
         if (username == null) {
-            System.out.println("⛔ Unauthorized access to /Explore. Redirecting to login.");
+            System.out.println("Unauthorized access to /Explore. Redirecting to login.");
             response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
 
-        // ✅ Handle Search Query from Search Bar
+        //  Handle Search Query from Search Bar
         String searchQuery = request.getParameter("query");
         List<ProductModel> products;
 
         if (searchQuery != null && !searchQuery.trim().isEmpty()) {
             products = productDAO.searchProductsByName(searchQuery.trim());
-            System.out.println("🔍 Search query: " + searchQuery);
+            System.out.println("Search query: " + searchQuery);
         } else {
             products = productDAO.getAllProducts();
-            System.out.println("📦 Showing all products");
+            System.out.println("Showing all products");
         }
 
-        // ✅ Pass data to JSP
+        //  Pass data to JSP
         request.setAttribute("username", username);
         request.setAttribute("products", products);
         request.setAttribute("searchQuery", searchQuery); // Optional: to retain the value in the input box
