@@ -12,86 +12,103 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * @author 23048591 Suman Lama
+ * Login servlet - handles user authentication for the login page
+ * Processes login form submissions, validates credentials, and manages session/cookie
+ */
 @WebServlet("/login")
 public class Login extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    // Handles GET requests to show the login form
+    /**
+     * Handles GET requests to display the login form
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Forwarding user to the login page JSP
+        // STEP 1: Forward the request to the login JSP page
         request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
     }
 
-    // Handles POST requests when the login form is submitted
+    /**
+     * Handles POST requests to process login form submissions
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Step 1: Retrieve username and password entered by user
+        // STEP 1: Retrieve username and password from form submission
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        // Step 2: Input validation — check if fields are empty
+        // STEP 2: Validate input fields
         if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
-            // If either field is empty, show error message and redirect back to login page
+            // STEP 3: If fields are empty, set error message and forward to login page
             request.setAttribute("error", "Please enter both username and password.");
             request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
             return;
         }
 
-        // Step 3: Start DB connection and query user by username only
+        // STEP 4: Establish database connection and query user
         try (Connection conn = DbConfig.getDbConnection()) {
 
-            // SQL query to select the user's encrypted password based on username
+            // STEP 5: Prepare SQL query to retrieve stored password for the username
             String sql = "SELECT password FROM User_Details WHERE username = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, username);
 
+            // STEP 6: Execute query and process result
             ResultSet rs = stmt.executeQuery();
 
-            // Step 4: Check if the username exists in the database
+            // STEP 7: Check if username exists in the database
             if (rs.next()) {
-                // Retrieve the stored encrypted password
+                // STEP 8: Retrieve stored hashed password
                 String storedPassword = rs.getString("password");
 
-                // Hash the input password to compare with stored hash
+                // STEP 9: Hash the input password for comparison
                 String hashedInputPassword = Hashing.hashPassword(password);
 
-                // Step 5: Check if the stored password matches the one entered by the user
+                // STEP 10: Compare stored password with hashed input password
                 if (storedPassword != null && storedPassword.equals(hashedInputPassword)) {
-                    // Step 6: Password match — login success
-
-                    // Create session and store username in the session for future use
+                    // STEP 11: Successful login - create session and store username
                     HttpSession session = request.getSession();
-                    session.setAttribute("username", username); // Store username in session
+                    session.setAttribute("username", username);
 
-                    // (Optional) Create a persistent cookie to store the username (for auto-login, etc.)
+                    // STEP 12: Create a persistent cookie for auto-login
                     Cookie usernameCookie = new Cookie("username", username);
-                    usernameCookie.setMaxAge(60 * 60 * 24 * 7); // Set cookie expiration to 7 days
+                    usernameCookie.setMaxAge(60 * 60 * 24 * 7); // 7-day expiration
                     response.addCookie(usernameCookie);
 
-                    // Redirect the user to the home or dashboard page after successful login
+                    // STEP 13: Redirect to home page
                     response.sendRedirect(request.getContextPath() + "/home1");
                     System.out.println("Login successful! Redirecting to /home1...");
-
                     return;
                 } else {
-                    //  Step 7: Password mismatch — show error message and redirect to login page
+                    // STEP 14: Password mismatch - set error message and forward to login page
                     request.setAttribute("error", "Invalid username or password.");
                     request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
                     return;
                 }
             } else {
-                //  Step 8: Username not found in database — show error message
+                // STEP 15: Username not found - set error message and forward to login page
                 request.setAttribute("error", "Invalid username or password.");
                 request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
                 return;
             }
 
         } catch (SQLException | ClassNotFoundException e) {
-            //  Handle any SQL or connection exceptions and display an error message to the user
+            // STEP 16: Handle database or connection errors
             e.printStackTrace();
             request.setAttribute("error", "Internal server error: " + e.getMessage());
             request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);

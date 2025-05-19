@@ -1,7 +1,7 @@
 package com.MediCareDrone.Controller;
 
 import com.MediCareDrone.model.UserModel;
-import com.MediCareDrone.Controller.UserDAO;
+import com.MediCareDrone.DAO.UserDAO;
 import com.MediCareDrone.util.CookieUtil;
 
 import jakarta.servlet.ServletException;
@@ -15,86 +15,119 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * Servlet implementation for the Portfolio page.
- * Handles requests for displaying the user's portfolio and updating basic info.
+ * @author 23048591 Suman Lama
+ * Portfolio servlet - handles access to the portfolio.jsp page
+ * Manages user authentication and updates to user profile information
  */
 @WebServlet(asyncSupported = true, urlPatterns = { "/Portfolio" })
 public class Portfolio extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		HttpSession session = request.getSession(false);
-		String username = null;
+    /**
+     * Handles GET requests to display the user's portfolio
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		if (session != null && session.getAttribute("username") != null) {
-			username = (String) session.getAttribute("username");
-			System.out.println("User authenticated via session: " + username);
-		} else {
-			Cookie usernameCookie = CookieUtil.getCookie(request, "username");
-			if (usernameCookie != null) {
-				username = usernameCookie.getValue();
-				session = request.getSession();
-				session.setAttribute("username", username);
-				System.out.println("Session restored from cookie: " + username);
-			}
-		}
+        // STEP 1: Try to retrieve an existing session (do not create new)
+        HttpSession session = request.getSession(false);
+        String username = null;
 
-		if (username == null) {
-			System.out.println("Unauthorized access to /Portfolio. Redirecting to login.");
-			response.sendRedirect(request.getContextPath() + "/login");
-			return;
-		}
+        // STEP 2: Check if session exists and contains a valid username
+        if (session != null && session.getAttribute("username") != null) {
+            username = (String) session.getAttribute("username");
+            System.out.println("User authenticated via session: " + username);
+        } else {
+            // STEP 3: If no session, check for the "username" cookie
+            Cookie usernameCookie = CookieUtil.getCookie(request, "username");
+            if (usernameCookie != null) {
+                username = usernameCookie.getValue();
 
-		try {
-			UserDAO userDAO = new UserDAO();
-			UserModel user = userDAO.getUserByUsername(username);
+                // STEP 4: Recreate session if cookie found
+                session = request.getSession();
+                session.setAttribute("username", username);
+                System.out.println("Session restored from cookie: " + username);
+            }
+        }
 
-			if (user != null) {
-				request.setAttribute("user", user);
-			} else {
-				System.out.println("⚠️ No user found with username: " + username);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.out.println("❌ Error retrieving user details: " + e.getMessage());
-		}
+        // STEP 5: If no session and no cookie, block access and redirect to login
+        if (username == null) {
+            System.out.println("Unauthorized access to /Portfolio. Redirecting to login.");
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
 
-		request.getRequestDispatcher("/WEB-INF/pages/portfolio.jsp").forward(request, response);
-	}
+        // STEP 6: Retrieve user details from database
+        try {
+            UserDAO userDAO = new UserDAO();
+            UserModel user = userDAO.getUserByUsername(username);
 
-	/**
-	 * Handles POST requests to /Portfolio for updating first and last name.
-	 */
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("username");
-		String updatedFirstName = request.getParameter("firstName");
-		String updatedLastName = request.getParameter("lastName");
+            // STEP 7: Check if user exists and pass to JSP
+            if (user != null) {
+                request.setAttribute("user", user);
+                System.out.println("Retrieved user details for: " + username);
+            } else {
+                System.out.println("No user found with username: " + username);
+            }
+        } catch (Exception e) {
+            // STEP 8: Handle errors during user retrieval
+            e.printStackTrace();
+            System.out.println("Error retrieving user details: " + e.getMessage());
+        }
 
-		UserDAO userDAO = new UserDAO();
-		UserModel user = userDAO.getUserByUsername(username);
+        // STEP 9: Forward to portfolio JSP
+        request.getRequestDispatcher("/WEB-INF/pages/portfolio.jsp").forward(request, response);
+    }
 
-		if (user != null) {
-			user.setFirstName(updatedFirstName);
-			user.setLastName(updatedLastName);
+    /**
+     * Handles POST requests to update user's first and last name
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-			boolean updated = userDAO.updateUser(user);
+        // STEP 1: Retrieve form parameters
+        String username = request.getParameter("username");
+        String updatedFirstName = request.getParameter("firstName");
+        String updatedLastName = request.getParameter("lastName");
 
-			if (updated) {
-				System.out.println("User profile updated successfully for: " + username);
-				request.setAttribute("successMessage", "Profile updated successfully.");
-			} else {
-				System.out.println("Failed to update user profile for: " + username);
-				request.setAttribute("errorMessage", "Failed to update profile.");
-			}
-		} else {
-			System.out.println("No user found to update with username: " + username);
-			request.setAttribute("errorMessage", "User not found.");
-		}
+        // STEP 2: Retrieve user from database
+        UserDAO userDAO = new UserDAO();
+        UserModel user = userDAO.getUserByUsername(username);
 
-		// Reuse the doGet method to reload updated profile info
-		doGet(request, response);
-	}
+        // STEP 3: Check if user exists and update profile
+        if (user != null) {
+            // STEP 4: Update user object with new values
+            user.setFirstName(updatedFirstName);
+            user.setLastName(updatedLastName);
+
+            // STEP 5: Attempt to save updated user to database
+            boolean updated = userDAO.updateUser(user);
+
+            // STEP 6: Set appropriate message based on update success
+            if (updated) {
+                System.out.println("User profile updated successfully for: " + username);
+                request.setAttribute("successMessage", "Profile updated successfully.");
+            } else {
+                System.out.println("Failed to update user profile for: " + username);
+                request.setAttribute("errorMessage", "Failed to update profile.");
+            }
+        } else {
+            // STEP 7: Handle case where user is not found
+            System.out.println("No user found to update with username: " + username);
+            request.setAttribute("errorMessage", "User not found.");
+        }
+
+        // STEP 8: Reload portfolio page with updated information
+        doGet(request, response);
+    }
 }

@@ -12,49 +12,69 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * LogOut servlet handles user logout.
- * It invalidates the session, removes relevant cookies, and redirects the user.
+ * @author 23048591 Suman Lama
+ * LogOut servlet - handles user logout functionality
+ * Invalidates the session, removes relevant cookies, and redirects the user
  */
 @WebServlet(asyncSupported = true, urlPatterns = { "/logout" })
 public class LogOut extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Handles GET request for logout (in case users navigate via URL).
+     * Handles GET requests for logout (e.g., direct URL navigation)
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // STEP 1: Delegate to common logout processing method
         processLogout(request, response);
     }
 
     /**
-     * Handles POST request for logout (when user clicks Logout button).
+     * Handles POST requests for logout (e.g., clicking a logout button)
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // STEP 1: Delegate to common logout processing method
         processLogout(request, response);
     }
 
     /**
-     * Common method to handle logout logic: session invalidation, cookie cleanup, and redirection.
+     * Processes logout logic: invalidates session, removes cookies, and redirects
+     *
+     * @param request  the HttpServletRequest object
+     * @param response the HttpServletResponse object
+     * @throws IOException if an I/O error occurs
      */
     private void processLogout(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        // Get the current session (if any), and invalidate it
+        // STEP 1: Retrieve the current session, if it exists
         HttpSession session = request.getSession(false);
+
+        // STEP 2: Invalidate the session to clear user data
         if (session != null) {
-            session.invalidate(); // Destroys the session and clears all user data
-            System.out.println("Successfully invalidating the active session and removing any cookies stored during login");
+            session.invalidate();
+            System.out.println("Successfully invalidated the active session");
         }
 
-        // Remove any cookies related to login or user data
-        CookieUtil.deleteCookie(response, "username");      // Custom username cookie
-        CookieUtil.deleteCookie(response, "JSESSIONID");    // Session cookie managed by servlet container
+        // STEP 3: Remove login-related cookies
+        CookieUtil.deleteCookie(response, "username"); // Custom username cookie
+        CookieUtil.deleteCookie(response, "JSESSIONID"); // Servlet container session cookie
+        System.out.println("Successfully removed login-related cookies");
 
-        // Redirect the user to the main landing page after logout
+        // STEP 4: Redirect to the main landing page
         response.sendRedirect(request.getContextPath() + "/firstPage.jsp");
-        System.out.println("Successfully invalidating the active session and removing any cookies stored during login");
+        System.out.println("Redirected to firstPage.jsp after logout");
     }
 }
